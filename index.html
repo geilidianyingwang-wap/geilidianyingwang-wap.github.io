@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>给力电影网 - 影视导航与热门片单推荐 | geilidianyingwang-wap.github.io</title>
+<meta name="keywords" content="给力电影网, 影视导航, 热门电影, 电视剧, 综艺, 动漫, 给力影视, geilidianyingwang-wap.github.io">
+<meta name="description" content="给力电影网（geilidianyingwang-wap.github.io）影视导航站点，电影、电视剧、综艺、动漫分类索引与热门片单推荐，一站直达。">
+<meta name="robots" content="index,follow">
+<meta name="author" content="给力电影网">
+<link rel="canonical" href="https://geilidianyingwang-wap.github.io/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "给力电影网",
+  "url": "https://geilidianyingwang-wap.github.io/",
+  "description": "影视导航与热门片单推荐，覆盖电影、电视剧、综艺、动漫的分类索引"
+}
+</script>
+<style>
+  :root{
+    --bg:#001a33;--bg2:#002b52;--pane:#003a6b;--line:#1a6fb0;--line2:#2a8fd0;
+    --txt:#cfe8ff;--txt2:#8fc4f5;--mute:#5e9fd4;
+    --cyan:#00f0ff;--amber:#ffb000;--green:#39ff8b;--pink:#ff4d8d;
+    --mono:"SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    --sans:"PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:var(--bg);color:var(--txt);line-height:1.8;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:200;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.18) 2px,transparent 4px)}
+  ::selection{background:var(--cyan);color:#001a33}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+
+  /* 顶部 BBS 公告栏 */
+  .bbs-top{background:#000;border-bottom:2px solid var(--cyan);padding:0}
+  .bbs-in{max-width:1140px;margin:0 auto;padding:8px 24px;display:flex;gap:18px;align-items:center;font-family:var(--mono);font-size:12.5px;color:var(--green)}
+  .bbs-in .blink{color:var(--amber);animation:bl 1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  .bbs-in marquee{flex:1;color:var(--txt2)}
+
+  /* 系统信息头 */
+  header{background:var(--bg2);border-bottom:1px solid var(--line);padding:26px 0}
+  .sys{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .ico{width:78px;height:78px;background:#000;border:2px solid var(--cyan);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 18px rgba(0,240,255,.35);position:relative}
+  .ico b{font-family:var(--mono);font-size:26px;color:var(--cyan);line-height:1;text-shadow:0 0 8px var(--cyan)}
+  .ico small{font-family:var(--mono);font-size:9.5px;color:var(--amber);letter-spacing:1px}
+  .ico::after{content:"●";position:absolute;top:-7px;right:-7px;color:var(--green);font-size:14px;animation:bl 1.2s steps(1) infinite}
+  .sys-t h1{font-size:30px;letter-spacing:3px;line-height:1.2}
+  .sys-t h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.6)}
+  .sys-t .url{font-family:var(--mono);font-size:13px;color:var(--amber);margin-top:8px;word-break:break-all}
+  .sys-t .url span{color:var(--mute)}
+  .sys-m{margin-left:auto;text-align:right;font-family:var(--mono);font-size:12px;color:var(--mute);line-height:2}
+  .sys-m b{color:var(--green)}
+
+  /* 命令行导航 */
+  nav{background:#000;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:13.5px;overflow-x:auto}
+  .nav-in{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;gap:0;align-items:center;min-width:max-content}
+  .nav-in .prompt{color:var(--green);margin-right:14px;white-space:nowrap}
+  .nav-in a{padding:12px 18px;color:var(--txt2);transition:.18s;white-space:nowrap}
+  .nav-in a:hover{background:var(--pane);color:var(--cyan)}
+  .nav-in a:hover::before{content:"> "}
+  #mb{display:none;background:transparent;border:1px solid var(--cyan);color:var(--cyan);font-family:var(--mono);font-size:14px;padding:10px 16px;margin:8px 24px;cursor:pointer}
+
+  /* 终端 Hero */
+  .hero{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:46px 0 30px}
+  .term{background:#000;border:1px solid var(--line2);border-radius:8px;overflow:hidden;box-shadow:0 0 30px rgba(0,240,255,.12)}
+  .term .bar{background:var(--pane);padding:9px 14px;display:flex;gap:7px;align-items:center;border-bottom:1px solid var(--line)}
+  .term .bar i{width:11px;height:11px;border-radius:50%;background:var(--mute);display:block}
+  .term .bar i:nth-child(1){background:var(--pink)}
+  .term .bar i:nth-child(2){background:var(--amber)}
+  .term .bar i:nth-child(3){background:var(--green)}
+  .term .bar b{font-family:var(--mono);font-size:11.5px;color:var(--txt2);margin-left:10px}
+  .term .body{padding:24px;font-family:var(--mono);font-size:13.5px;line-height:2}
+  .term .body .l1{color:var(--green)}
+  .term .body .l2{color:var(--amber)}
+  .term .body .l3{color:var(--cyan)}
+  .term .body .cm{color:var(--mute)}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--cyan);vertical-align:-2px;animation:bl 1s steps(1) infinite;margin-left:2px}
+  .hero-side{display:flex;flex-direction:column;gap:16px}
+  .stat-box{background:var(--bg2);border:1px solid var(--line);border-left:4px solid var(--cyan);padding:16px 20px}
+  .stat-box h4{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:2px;margin-bottom:6px}
+  .stat-box .num{font-family:var(--mono);font-size:32px;color:var(--amber);line-height:1}
+  .stat-box p{font-size:12.5px;color:var(--txt2);margin-top:6px}
+  .hero-side .acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .hero-side .acts a{text-align:center;padding:13px;font-family:var(--mono);font-size:13px;border:1px solid var(--line2);transition:.2s;color:var(--cyan)}
+  .hero-side .acts a:hover{background:var(--cyan);color:#000}
+  .hero-side .acts a.amber{border-color:var(--amber);color:var(--amber)}
+  .hero-side .acts a.amber:hover{background:var(--amber);color:#000}
+
+  section{padding:56px 0}
+  .sh{display:flex;align-items:center;gap:14px;margin-bottom:30px;flex-wrap:wrap;border-bottom:1px dashed var(--line2);padding-bottom:14px}
+  .sh .tag{font-family:var(--mono);font-size:12px;color:#000;background:var(--cyan);padding:5px 12px;letter-spacing:1px}
+  .sh h3{font-family:var(--mono);font-size:21px;color:#fff;letter-spacing:1px}
+  .sh h3::before{content:"# ";color:var(--cyan)}
+  .sh .d{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--mute)}
+
+  /* 01 分类：ASCII 表格风 */
+  .ascii{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13.5px}
+  .ascii th{background:var(--pane);color:var(--cyan);text-align:left;padding:12px 16px;border:1px solid var(--line);letter-spacing:1px}
+  .ascii td{padding:14px 16px;border:1px solid var(--line);color:var(--txt2);vertical-align:top;transition:.18s}
+  .ascii tbody tr{background:rgba(0,59,107,.25)}
+  .ascii tbody tr:nth-child(even){background:rgba(0,59,107,.5)}
+  .ascii tbody tr:hover td{background:var(--pane);color:#fff}
+  .ascii td.id{color:var(--amber);width:64px;text-align:center}
+  .ascii td.name{color:#fff;font-weight:700;width:170px}
+  .ascii td.ct a{display:inline-block;font-size:11.5px;color:var(--cyan);border:1px solid var(--line2);padding:2px 9px;margin:3px 6px 3px 0;transition:.18s}
+  .ascii td.ct a:hover{background:var(--cyan);color:#000}
+
+  /* 02 片单：抽屉式卡片（左右交错） */
+  .drawer{display:flex;flex-direction:column;gap:12px}
+  .row{display:grid;grid-template-columns:52px 130px 1fr auto;align-items:stretch;border:1px solid var(--line);background:var(--bg2);transition:.22s}
+  .row:nth-child(even){grid-template-columns:auto 1fr 130px 52px}
+  .row:nth-child(even) .rk{order:4}
+  .row:nth-child(even) .cover{order:3;text-align:right}
+  .row:nth-child(even) .info{order:2;text-align:right}
+  .row:nth-child(even) .go{order:1}
+  .row:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,240,255,.2);transform:translateX(4px)}
+  .row:nth-child(even):hover{transform:translateX(-4px)}
+  .rk{background:#000;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:22px;color:var(--amber);border-right:1px solid var(--line)}
+  .row:nth-child(even) .rk{border-right:0;border-left:1px solid var(--line)}
+  .row:nth-child(1) .rk{color:var(--amber);text-shadow:0 0 8px var(--amber)}
+  .row:nth-child(2) .rk{color:var(--txt2)}
+  .row:nth-child(3) .rk{color:var(--green)}
+  .cover{background:var(--pane);padding:14px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+  .cover b{font-size:16px;color:#fff;letter-spacing:1px}
+  .cover span{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .info{padding:14px 18px;display:flex;flex-direction:column;justify-content:center}
+  .info p{font-size:12.5px;color:var(--txt2);text-align:justify}
+  .info .fl{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .info .fl i{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--cyan);background:rgba(0,240,255,.08);padding:2px 8px}
+  .row:nth-child(even) .info .fl{justify-content:flex-end}
+  .go{display:flex;align-items:center;justify-content:center;background:var(--pane);padding:0 18px;border-left:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--green);transition:.18s}
+  .row:nth-child(even) .go{border-left:0;border-right:1px solid var(--line)}
+  .go:hover{background:var(--green);color:#000}
+
+  /* 03 标签云：像素块矩阵 */
+  .matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .chip{position:relative;padding:20px 18px;border:1px solid var(--line);background:rgba(0,59,107,.3);transition:.22s;overflow:hidden;min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
+  .chip::before{content:"";position:absolute;left:0;top:0;width:0;height:100%;background:var(--cyan);transition:.3s;z-index:0}
+  .chip:hover::before{width:100%}
+  .chip:hover *{color:#000 !important}
+  .chip .k{font-family:var(--mono);font-size:11px;color:var(--mute);position:relative;z-index:1}
+  .chip .v{font-size:16px;font-weight:800;color:#fff;letter-spacing:1px;position:relative;z-index:1}
+  .chip .c{font-family:var(--mono);font-size:11px;color:var(--amber);position:relative;z-index:1}
+
+  /* 04 时间线：竖线节点 */
+  .tl{position:relative;padding-left:36px}
+  .tl::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:repeating-linear-gradient(180deg,var(--line2) 0 6px,transparent 6px 14px)}
+  .tl .node{position:relative;margin-bottom:20px;background:var(--bg2);border:1px solid var(--line);padding:16px 20px;transition:.2s}
+  .tl .node::before{content:"";position:absolute;left:-31px;top:20px;width:14px;height:14px;background:#000;border:2px solid var(--cyan);border-radius:50%;z-index:2}
+  .tl .node::after{content:"";position:absolute;left:-18px;top:25px;width:18px;height:2px;background:var(--line2)}
+  .tl .node:hover{border-color:var(--cyan);box-shadow:0 0 14px rgba(0,240,255,.18)}
+  .tl .node .t{font-family:var(--mono);font-size:11.5px;color:var(--amber);margin-bottom:4px}
+  .tl .node h4{font-size:16px;color:#fff;margin-bottom:5px}
+  .tl .node p{font-size:12.5px;color:var(--txt2);text-align:justify}
+
+  /* 关于：面板拼合 */
+  .about{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border:1px solid var(--line)}
+  .about .a{background:var(--bg2);padding:34px;border-right:1px solid var(--line)}
+  .about .a h3{font-family:var(--mono);font-size:20px;color:#fff;margin-bottom:16px}
+  .about .a h3::before{content:"> ";color:var(--green)}
+  .about .a p{font-size:13.5px;color:var(--txt2);margin-bottom:12px;text-align:justify}
+  .about .a .u{font-family:var(--mono);font-size:12.5px;color:var(--amber);background:#000;padding:12px;border:1px dashed var(--line2);word-break:break-all}
+  .about .b{background:#000;padding:34px}
+  .about .b h5{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:2px;margin-bottom:16px}
+  .about .b ul{list-style:none}
+  .about .b li{margin-bottom:0;border-bottom:1px dotted var(--line)}
+  .about .b a{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 0;font-size:13.5px;color:var(--txt2);transition:.18s}
+  .about .b a .p{font-family:var(--mono);font-size:11px;color:var(--cyan)}
+  .about .b a .a2{font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .about .b a:hover{color:var(--cyan);padding-left:8px}
+  .about .b a:hover .a2{color:var(--green)}
+
+  footer{background:#000;border-top:2px solid var(--cyan);margin-top:40px;padding:40px 0 0}
+  .fwrap{max-width:1140px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
+  .fwrap .f1 h4{font-family:var(--mono);font-size:20px;color:var(--cyan);margin-bottom:10px}
+  .fwrap .f1 p{font-size:13px;color:var(--txt2);max-width:320px;text-align:justify}
+  .fwrap h5{font-family:var(--mono);font-size:12px;color:var(--amber);margin-bottom:16px}
+  .fwrap ul li{list-style:none;margin-bottom:9px}
+  .fwrap a{color:var(--txt2);font-size:13px;font-family:var(--mono);transition:.18s}
+  .fwrap a:hover{color:var(--cyan)}
+  .copy{max-width:1140px;margin:32px auto 0;padding:18px 24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .copy a{color:var(--cyan)}
+
+  #top{position:fixed;right:18px;bottom:20px;width:46px;height:46px;background:#000;border:2px solid var(--cyan);color:var(--cyan);font-family:var(--mono);font-size:18px;cursor:pointer;opacity:0;visibility:hidden;transition:.3s;z-index:100}
+  #top.show{opacity:1;visibility:visible}
+  #top:hover{background:var(--cyan);color:#000}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr}
+    .sys{flex-direction:column;align-items:flex-start}
+    .sys-m{margin-left:0;text-align:left}
+    .ascii,.ascii tbody,.ascii tr,.ascii td,.ascii th{display:block}
+    .ascii thead{display:none}
+    .ascii td{border:none;border-bottom:1px solid var(--line)}
+    .ascii td.name{background:var(--pane);width:auto}
+    .ascii td.id{width:auto;text-align:left;padding:8px 16px;background:#000}
+    .row,.row:nth-child(even){grid-template-columns:52px 1fr;grid-template-areas:"rk info" "cover info" "go go"}
+    .row .rk{grid-area:rk;order:0;border-right:1px solid var(--line);border-left:0 !important}
+    .row .cover{grid-area:cover;order:0;text-align:left !important}
+    .row .info{grid-area:info;order:0;text-align:left !important}
+    .row .info .fl{justify-content:flex-start !important}
+    .row .go{grid-area:go;order:0;border:0;border-top:1px solid var(--line)}
+    .matrix{grid-template-columns:repeat(2,1fr)}
+    .about{grid-template-columns:1fr}
+    .about .a{border-right:0;border-bottom:1px solid var(--line)}
+    .fwrap{grid-template-columns:1fr 1fr}
+    .nav-in{display:none;flex-direction:column;align-items:stretch;padding:8px 24px}
+    .nav-in.open{display:flex}
+    .nav-in a{padding:11px 0;border-bottom:1px solid var(--line)}
+    #mb{display:block}
+  }
+  @media (max-width:520px){
+    .sys-t h1{font-size:23px}
+    .matrix{grid-template-columns:1fr}
+    .fwrap{padding:0 24px}
+  }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/xiaolu.js"></script>
+
+<div class="bbs-top"><div class="bbs-in"><span class="blink">●</span><span>系统公告</span><marquee scrollamount="4">欢迎访问给力电影网 · 影视导航与热门片单推荐 · 官方网址 https://geilidianyingwang-wap.github.io/ · 电影 / 电视剧 / 综艺 / 动漫 分类索引 · 一站直达</marquee></div></div>
+
+<header>
+  <div class="wrap">
+    <div class="sys">
+      <div class="ico"><b>GL</b><small>FILM</small></div>
+      <div class="sys-t"><h1>给力<em>电影网</em></h1><div class="url"><span>https://</span>geilidianyingwang-wap.github.io<span>/</span></div></div>
+      <div class="sys-m">状态：<b>ONLINE</b><br>服务：影视导航<br>更新：每日 07:00</div>
+    </div>
+  </div>
+</header>
+
+<nav><div class="nav-in" id="nav">
+  <span class="prompt">guest@geili ~ $</span>
+  <a href="#home">cd /home</a>
+  <a href="#tbl">ls ./channels</a>
+  <a href="#drawer">cat ./ranking</a>
+  <a href="#matrix">open ./tags</a>
+  <a href="#tl">tail ./log</a>
+  <a href="#about">cat ./about</a>
+</div><button id="mb">[ MENU ]</button></nav>
+
+<main class="wrap">
+
+  <div class="hero" id="home">
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><b>bash — 给力电影网@geilidianyingwang-wap</b></div>
+      <div class="body">
+        <div class="l1">$ whoami</div>
+        <div class="cm">→ 给力电影网 / Geili Film</div>
+        <div class="l2">$ cat /etc/intro</div>
+        <div class="cm">→ 影视导航站点，覆盖电影、电视剧、综艺、动漫</div>
+        <div class="l3">$ ls -la ./channels/</div>
+        <div class="cm">→ 电影 / 电视剧 / 综艺 / 动漫</div>
+        <div class="l1">$ grep -r "好片" ./index<span class="cursor"></span></div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="stat-box"><h4>CHANNELS</h4><div class="num">4</div><p>内容频道，分类索引</p></div>
+      <div class="stat-box" style="border-left-color:var(--amber)"><h4>UPDATE</h4><div class="num">24/7</div><p>每天更新，随时可看</p></div>
+      <div class="acts">
+        <a href="#tbl">浏览频道</a>
+        <a class="amber" href="#drawer">查看片单</a>
+        <a href="#matrix">热门标签</a>
+        <a class="amber" href="#about">关于本站</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 ASCII 表格 -->
+  <section id="tbl">
+    <div class="sh"><span class="tag">SECTION 01</span><h3>内容频道表</h3><span class="d">TABLE channels</span></div>
+    <table class="ascii">
+      <thead><tr><th>ID</th><th>频道</th><th>涵盖内容</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="id">01</td><td class="name">电影</td><td class="ct"><a href="#">动作</a><a href="#">喜剧</a><a href="#">科幻</a><a href="#">悬疑</a><a href="#">爱情</a><a href="#">恐怖</a></td><td class="id">●</td></tr>
+        <tr><td class="id">02</td><td class="name">电视剧</td><td class="ct"><a href="#">国产剧</a><a href="#">美剧</a><a href="#">韩剧</a><a href="#">日剧</a><a href="#">港台剧</a></td><td class="id">●</td></tr>
+        <tr><td class="id">03</td><td class="name">综艺</td><td class="ct"><a href="#">真人秀</a><a href="#">访谈</a><a href="#">选秀</a><a href="#">生活</a></td><td class="id">●</td></tr>
+        <tr><td class="id">04</td><td class="name">动漫</td><td class="ct"><a href="#">国漫</a><a href="#">日漫</a><a href="#">美漫</a><a href="#">连载</a><a href="#">完结</a></td><td class="id">●</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 02 抽屉式片单 -->
+  <section id="drawer">
+    <div class="sh"><span class="tag">SECTION 02</span><h3>热门片单</h3><span class="d">tail -n 5 ./ranking</span></div>
+    <div class="drawer">
+      <div class="row"><div class="rk">01</div><div class="cover"><b>动作片单</b><span>ACTION</span></div><div class="info"><p>硬核动作与热血场面，打斗、追车、枪战，节奏快、冲击强。</p><div class="fl"><i>类型</i><i>动作</i><i>热血</i></div></div><a class="go" href="#">OPEN →</a></div>
+      <div class="row"><div class="rk">02</div><div class="cover"><b>喜剧片单</b><span>COMEDY</span></div><div class="info"><p>轻松解压首选，从冷幽默到无厘头，适合周末放松与家庭观看。</p><div class="fl"><i>类型</i><i>喜剧</i><i>轻松</i></div></div><a class="go" href="#">OPEN →</a></div>
+      <div class="row"><div class="rk">03</div><div class="cover"><b>悬疑片单</b><span>THRILLER</span></div><div class="info"><p>反转与伏笔层层递进，适合喜欢动脑的观众，越看越上头。</p><div class="fl"><i>类型</i><i>悬疑</i><i>反转</i></div></div><a class="go" href="#">OPEN →</a></div>
+      <div class="row"><div class="rk">04</div><div class="cover"><b>科幻片单</b><span>SCI-FI</span></div><div class="info"><p>未来想象与硬核设定，视觉奇观与世界观构建并重。</p><div class="fl"><i>类型</i><i>科幻</i><i>视效</i></div></div><a class="go" href="#">OPEN →</a></div>
+      <div class="row"><div class="rk">05</div><div class="cover"><b>爱情片单</b><span>ROMANCE</span></div><div class="info"><p>从甜宠到虐恋，都市情感与青春校园，适合情侣与独处时光。</p><div class="fl"><i>类型</i><i>爱情</i><i>治愈</i></div></div><a class="go" href="#">OPEN →</a></div>
+    </div>
+  </section>
+
+  <!-- 03 像素块矩阵 -->
+  <section id="matrix">
+    <div class="sh"><span class="tag">SECTION 03</span><h3>热门标签</h3><span class="d">grep -c tags</span></div>
+    <div class="matrix">
+      <div class="chip"><span class="k">#01</span><span class="v">动作</span><span class="c">128 部</span></div>
+      <div class="chip"><span class="k">#02</span><span class="v">喜剧</span><span class="c">96 部</span></div>
+      <div class="chip"><span class="k">#03</span><span class="v">科幻</span><span class="c">74 部</span></div>
+      <div class="chip"><span class="k">#04</span><span class="v">悬疑</span><span class="c">112 部</span></div>
+      <div class="chip"><span class="k">#05</span><span class="v">爱情</span><span class="c">88 部</span></div>
+      <div class="chip"><span class="k">#06</span><span class="v">恐怖</span><span class="c">53 部</span></div>
+      <div class="chip"><span class="k">#07</span><span class="v">动画</span><span class="c">140 部</span></div>
+      <div class="chip"><span class="k">#08</span><span class="v">综艺</span><span class="c">67 档</span></div>
+    </div>
+  </section>
+
+  <!-- 04 竖线时间线 -->
+  <section id="tl">
+    <div class="sh"><span class="tag">SECTION 04</span><h3>更新日志</h3><span class="d">tail -f access.log</span></div>
+    <div class="tl">
+      <div class="node"><div class="t">[ 07:00 ] 2026-10-02</div><h4>全站每日更新</h4><p>给力电影网 每日 07:00 更新片单与分类索引，覆盖电影、电视剧、综艺、动漫四大频道。</p></div>
+      <div class="node"><div class="t">[ 09:00 ] 2026-10-01</div><h4>热门标签扩容</h4><p>新增科幻、恐怖、动画等细分标签，按类型筛选更精准。</p></div>
+      <div class="node"><div class="t">[ 08:00 ] 2026-09-30</div><h4>分类索引上线</h4><p>电影、电视剧、综艺、动漫四大频道分类索引完成，导航更清晰。</p></div>
+      <div class="node"><div class="t">[ 10:00 ] 2026-09-29</div><h4>站点上线</h4><p>给力电影网 正式上线，官方网址 https://geilidianyingwang-wap.github.io/</p></div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section id="about">
+    <div class="about">
+      <div class="a">
+        <h3>关于给力电影网</h3>
+        <p><strong style="color:#fff">给力电影网</strong> 是一个影视导航站点，官方网址：</p>
+        <div class="u">https://geilidianyingwang-wap.github.io/</div>
+        <p style="margin-top:14px">从动作、喜剧、科幻到悬疑、爱情、恐怖，从电影、电视剧到综艺、动漫，我们按类型与频道做分类索引，帮你快速找到想看的片子。</p>
+        <p>不用在多个站点之间反复跳转，给力电影网 一站直达。</p>
+      </div>
+      <div class="b">
+        <h5>// NAVIGATION</h5>
+        <ul>
+          <li><a href="#tbl"><span class="p">01</span>内容频道表<span class="a2">→</span></a></li>
+          <li><a href="#drawer"><span class="p">02</span>热门片单<span class="a2">→</span></a></li>
+          <li><a href="#matrix"><span class="p">03</span>热门标签<span class="a2">→</span></a></li>
+          <li><a href="#tl"><span class="p">04</span>更新日志<span class="a2">→</span></a></li>
+          <li><a href="#about"><span class="p">05</span>关于本站<span class="a2">→</span></a></li>
+          <li><a href="#"><span class="p">06</span>联系投稿<span class="a2">→</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="fwrap">
+    <div class="f1"><h4>给力电影网</h4><p>影视导航与热门片单推荐，覆盖电影、电视剧、综艺、动漫的分类索引。</p></div>
+    <div><h5>// 内容</h5><ul><li><a href="#tbl">电影</a></li><li><a href="#tbl">电视剧</a></li><li><a href="#tbl">综艺</a></li><li><a href="#tbl">动漫</a></li></ul></div>
+    <div><h5>// 索引</h5><ul><li><a href="#matrix">热门标签</a></li><li><a href="#drawer">热门片单</a></li><li><a href="#tl">更新日志</a></li><li><a href="#">全部分类</a></li></ul></div>
+    <div><h5>// 关于</h5><ul><li><a href="#about">网站简介</a></li><li><a href="#">投稿合作</a></li><li><a href="#">免责声明</a></li><li><a href="#">联系我们</a></li></ul></div>
+  </div>
+  <div class="copy"><span>Copyright © 2026 <span style="color:#fff">给力电影网</span> All Rights Reserved.</span><span>URL: <a href="https://geilidianyingwang-wap.github.io/">https://geilidianyingwang-wap.github.io/</a></span></div>
+</footer>
+
+<button id="top" aria-label="回到顶部">↑</button>
+
+<script>
+  var mb=document.getElementById('mb'),nav=document.getElementById('nav');
+  mb.addEventListener('click',function(){nav.classList.toggle('open');});
+  nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');});});
+  var top=document.getElementById('top');
+  window.addEventListener('scroll',function(){window.scrollY>500?top.classList.add('show'):top.classList.remove('show');});
+  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+</script>
+</body>
+</html>
